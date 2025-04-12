@@ -1,3 +1,4 @@
+% 串口数据发送函数，原理：±10°映射到65535位上
 function send_serial_data(s, angleX, angleY)
     % send_serial_data: 将角度数据映射并以十六进制格式发送到串口
     % 参数：
