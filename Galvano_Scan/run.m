@@ -1,7 +1,7 @@
 
 closeup();
 
-main();
+straight_pattern();
 
 %% 
 
