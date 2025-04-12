@@ -1,3 +1,4 @@
+% 串口重置函数
 function closeup(portName)
     % CLOSEUP 关闭指定的 serialport 对象
     % 可选参数 portName: 指定要关闭的串口（如 'COM5'）
