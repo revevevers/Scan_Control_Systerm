@@ -32,6 +32,5 @@ function send_angel_data(s, angleX, angleY)
     hexString = sprintf('%02X', data);  % 将每个字节转换为两位十六进制
     disp(['发送的十六进制数据: ', hexString]);
 
-    % 方法2：以十六进制字符串形式发送数据
-    write(s, data, "uint8");  % 以二进制形式发送
+    write(s, data, "uint8");  % 以二进制形式发送数据
 end
