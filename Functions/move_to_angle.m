@@ -15,7 +15,7 @@ function move_to_angle(serialPort, baudRate, angleX, angleY)
         configureCallback(s, "off");  % 关闭回调
         
         % 发送目标角度
-        send_angel_dat(s, angleX, angleY);
+        send_angel_data(s, angleX, angleY);
 
         % 输出确认信息
         fprintf('振镜已偏转到角度：X=%.2f°, Y=%.2f°\n', angleX, angleY);
