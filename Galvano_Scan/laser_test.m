@@ -1,7 +1,7 @@
 %% Define serial communication parameters
 % RS232
 baudRate = 19200; % Baud rate for the serial communication
-serialPortName = 'COM3'; % Replace with your serial port name (e.g., 'COM3' on Windows or '/dev/ttyUSB0' on Linux/Mac)
+serialPortName = 'COM2'; % Replace with your serial port name (e.g., 'COM3' on Windows or '/dev/ttyUSB0' on Linux/Mac)
 
 % Define a 10-byte hexadecimal data packet
 
@@ -31,11 +31,28 @@ QSwitch_close = [0x01, 0xbb, 0x00, 0x00, 0x00, 0x00, 0xcc, 0x33, 0xc3, 0x3c];
 % 联机下传-》设置参数（或者提前在控制面板设置好）-》stand_by-》Flash-》QSwitch-》QSwitch_close-》Flash_close-》stand_by_close
 
 dataPacket = online_download;
-% 创建并打开串口对象
-s = serialport(serialPort, baudRate);
-fprintf('串口已打开：%s\n', serialPort);
 
-send_serial_data(s, dataPacket);
+
+closeup();
+availablePorts = serialportlist;
+disp("Available Ports:");
+disp(availablePorts);
+% 创建并打开串口对象
+s = serialport(serialPortName, 19200);
+fprintf('串口已打开：%s\n', serialPortName);
+write(s, 138, "uint8");
+pause(1); % 等待1秒钟以确保数据发送完成
+if s.NumBytesAvailable > 0
+    % 从串口读取数据
+    % 注意发送的是几位十六进制数，接收也是几位十六进制数
+    receivedData = read(s, s.NumBytesAvailable, "uint8");
+    disp(class(receivedData)); % 显示数据类型
+    disp(size(receivedData)); % 显示数组大小
+    disp(receivedData); % 显示接收到的数据
+    disp(dec2hex(receivedData));
+end
+
+% send_serial_data(s, dataPacket);
 
 % 清理串口对象
 clear s;
