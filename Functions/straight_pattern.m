@@ -1,4 +1,4 @@
-function straight_pattern(serialPort, baudRate, axis, maxAngle, pauseTime)
+function straight_pattern(serialPort, baudRate, axis, maxAngle, stepSize, pauseTime)
     % 控制某一个轴以一定步长偏转一定角度范围
     % 串口设置
     serialPort = 'COM5';   % 根据实际端口修改
@@ -29,7 +29,7 @@ function straight_pattern(serialPort, baudRate, axis, maxAngle, pauseTime)
             end
 
             % 发送当前角度数据
-            send_serial_data(s, angleX, angleY);
+            send_angel_dat(s, angleX, angleY);
             fprintf('当前角度：%s=%.2f°\n', axis, currentAngle);
 
             % 检查是否完成扫描

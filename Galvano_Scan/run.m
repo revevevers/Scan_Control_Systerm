@@ -1,8 +1,8 @@
 
 closeup();
 
-straight_pattern(serialPort, baudRate, axis, maxAngle, pauseTime);
-
+straight_pattern('COM5', 115200, 'X', 0.5, 0.1, 0.5);
+% straight_pattern(serialPort, baudRate, axis, maxAngle, stepSize, pauseTime)
 %% 
 
 closeup();

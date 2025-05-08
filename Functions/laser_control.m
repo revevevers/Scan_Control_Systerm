@@ -1,5 +1,6 @@
-functions laser_control()
+function laser_control()
+    
+    
 
 
-
-end 
+end
