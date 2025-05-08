@@ -1,7 +1,7 @@
 
 closeup();
 
-straight_pattern();
+straight_pattern(serialPort, baudRate, axis, maxAngle, pauseTime);
 
 %% 
 

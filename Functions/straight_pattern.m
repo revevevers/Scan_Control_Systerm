@@ -1,4 +1,4 @@
-function straight_pattern()
+function straight_pattern(serialPort, baudRate, axis, maxAngle, pauseTime)
     % 控制某一个轴以一定步长偏转一定角度范围
     % 串口设置
     serialPort = 'COM5';   % 根据实际端口修改
