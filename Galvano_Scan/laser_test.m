@@ -6,12 +6,12 @@ serialPortName = 'COM2'; % Replace with your serial port name (e.g., 'COM3' on W
 % Define a 10-byte hexadecimal data packet
 
 % 输入十进制电压值，转化为十六进制提取高位和低位
-V = 680;
+V = 620;
 decimalValue_uint16 = uint16(V);
 V1H = bitshift(decimalValue_uint16, -8); % 高 8 位
 V1L = bitand(decimalValue_uint16, 255);  % 低 8 位
 % 输入十进制频率值，转化为十六进制提取高位和低位
-F = 1000;
+F = 10;
 decimalValue_uint16 = uint16(F);
 freqQH = bitshift(decimalValue_uint16, -8); % 高 8 位
 freqQL = bitand(decimalValue_uint16, 255);  % 低 8 位
@@ -26,6 +26,8 @@ Flash = double([0x01, 0x66, 0x00, 0x66, 0x00, 0x00, 0xcc, 0x33, 0xc3, 0x3c]);
 Flash_close = double([0x01, 0x66, 0x00, 0x00, 0x00, 0x00, 0xcc, 0x33, 0xc3, 0x3c]);
 QSwitch = double([0x01, 0xbb, 0x00, 0xbb, 0x00, 0x00, 0xcc, 0x33, 0xc3, 0x3c]);
 QSwitch_close = double([0x01, 0xbb, 0x00, 0x00, 0x00, 0x00, 0xcc, 0x33, 0xc3, 0x3c]);
+outside_clk = double([0x01, 0x77, 0x00, 0x77, 0x00, 0x00, 0xcc, 0x33, 0xc3, 0x3c]);
+inside_clk = double([0x01, 0x77, 0x00, 0x00, 0x00, 0x00, 0xcc, 0x33, 0xc3, 0x3c]);
 
 
 %% Send the data packet to the serial port
@@ -43,7 +45,7 @@ try
     % 创建并打开串口对象
     s = serialport(serialPortName, baudRate);
     fprintf('串口已打开：%s\n', serialPortName);
-    write(s, online_download, "uint8");
+    write(s, dataPacket, "uint8");
     pause(1); % 等待1秒钟以确保数据发送完成
     while true
         if s.NumBytesAvailable > 0
