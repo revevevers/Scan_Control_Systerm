@@ -33,25 +33,36 @@ QSwitch_close = double([0x01, 0xbb, 0x00, 0x00, 0x00, 0x00, 0xcc, 0x33, 0xc3, 0x
 
 dataPacket = online_download;
 
-
+% 串口初始化，显示可用的串口
 closeup();
 availablePorts = serialportlist;
 disp("Available Ports:");
 disp(availablePorts);
-% 创建并打开串口对象
-s = serialport(serialPortName, 19200);
-fprintf('串口已打开：%s\n', serialPortName);
-write(s, 138, "uint8");
-pause(1); % 等待1秒钟以确保数据发送完成
-if s.NumBytesAvailable > 0
-    % 从串口读取数据
-    % 注意发送的是几位十六进制数，接收也是几位十六进制数
-    receivedData = read(s, s.NumBytesAvailable, "uint8");
-    disp(class(receivedData)); % 显示数据类型
-    disp(size(receivedData)); % 显示数组大小
-    disp(receivedData); % 显示接收到的数据
-    disp(dec2hex(receivedData));
+try
+
+    % 创建并打开串口对象
+    s = serialport(serialPortName, baudRate);
+    fprintf('串口已打开：%s\n', serialPortName);
+    write(s, online_download, "uint8");
+    pause(1); % 等待1秒钟以确保数据发送完成
+    while true
+        if s.NumBytesAvailable > 0
+            % 从串口读取数据
+            % 注意发送的是几位十六进制数，接收也是几位十六进制数
+            receivedData = read(s, s.NumBytesAvailable, "uint8");
+            disp(class(receivedData)); % 显示数据类型
+            disp(size(receivedData)); % 显示数组大小
+            disp(receivedData); % 显示接收到的数据
+            disp(dec2hex(receivedData));
+            break; % 退出循环
+        end
+    end
+catch ME
+    % 错误处理
+    fprintf('发生错误：%s\n', ME.message);
+    
 end
+
 
 % send_serial_data(s, dataPacket);
 
