@@ -15,9 +15,10 @@ returnedVariableName = laser_control(serialPortName, V, F, dataPacketType);
 % 检查返回的变量名称是否为 'Flash'
 if strcmp(returnedVariableName, 'Flash')
     % 如果返回值为 'Flash'，调用 move_to_angle 函数
-    angleX = 1; % 示例 X 轴角度
-    angleY = -1; % 示例 Y 轴角度
-    move_to_angle(serialPortName, 115200, angleX, angleY);
+%    angleX = 1; % 示例 X 轴角度
+%    angleY = -1; % 示例 Y 轴角度
+%    move_to_angle(serialPortName, 115200, angleX, angleY);
+    send_serial_data('COM1', 'COM2', 9600, 138)
 else
     fprintf('返回的变量名称为: %s，未调用 move_to_angle。\n', returnedVariableName);
 end
