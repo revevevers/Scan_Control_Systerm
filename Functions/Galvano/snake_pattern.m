@@ -20,7 +20,7 @@ function snake_pattern(serialPort, baudRate, xStepSize, yStepSize, maxAngle, pau
         % 主循环
         while angleY <= maxAngle
             % 发送当前角度数据
-            send_angel_dat(s, angleX, angleY);
+            send_angel_data(s, angleX, angleY);
 
             % 更新X轴角度
             angleX = angleX + direction * xStepSize;
