@@ -62,9 +62,6 @@ end
 
 % 串口初始化，显示可用的串口
 closeup();
-availablePorts = serialportlist;
-disp("Available Ports:");
-disp(availablePorts);
 try
 
     % 创建并打开串口对象

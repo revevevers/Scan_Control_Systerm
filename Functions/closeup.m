@@ -41,6 +41,13 @@ function closeup(portName)
             warning('关闭串口 %s 时出错: %s', portName, ME.message);
         end
     end
+    availablePorts = serialportlist;
+    if isempty(availablePorts)
+        disp('没有可用的串口');
+    else
+        disp('可用的串口:');
+        disp(availablePorts);
+    end
 end
 
 function s = getSerialportObject(portName)
