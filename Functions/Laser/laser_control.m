@@ -76,7 +76,6 @@ try
             disp(class(receivedData)); % 显示数据类型
             disp(size(receivedData)); % 显示数组大小
             disp(receivedData); % 显示接收到的数据
-            disp(dec2hex(receivedData));
             
             % 查询接收到的命令对应的变量名称
             dataPackerName = findMatchingVariable(receivedData, ...
