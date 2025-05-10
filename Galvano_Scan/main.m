@@ -6,7 +6,6 @@ closeup(); % 清理串口
 serialPortName = 'COM5';
 V = 620; % 示例电压值
 F = 10; % 示例频率值
-dataPacketType = 'Flash';
 % 'online_download', 'V_download', 'F_download', 'stand_by', 'Flash'
 
 % 调用 laser_control 并获取返回的变量名称
@@ -24,4 +23,4 @@ else
 end
 
 %% 调用主函数
-main();
+main(dataPacketType);
