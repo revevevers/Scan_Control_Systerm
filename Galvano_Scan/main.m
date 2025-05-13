@@ -19,7 +19,7 @@ function main(dataPacketType)
     %    angleX = 1; % 示例 X 轴角度
     %    angleY = -1; % 示例 Y 轴角度
     %    move_to_angle(serialPortName, 115200, angleX, angleY);
-        send_serial_data('COM1', 'COM2', 9600, 138)
+        move_to_angle(serialPort, 115200, 50, 50, 163);
     else
         fprintf('返回的变量名称为: %s，未调用 move_to_angle。\n', returnedVariableName);
     end
