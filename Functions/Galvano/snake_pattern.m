@@ -1,48 +1,53 @@
-function snake_pattern(serialPort, baudRate, xStepSize, yStepSize, maxAngle, pauseTime)
+function snake_pattern(serialPort, baudRate, xRange, yRange, gridSpacing, focalLength, pauseTime)
     % 蛇形偏转函数
     % 参数：
     %   serialPort: 串口端口 (如 'COM7')
     %   baudRate: 串口波特率 (如 115200)
-    %   xStepSize: X轴步长 (单位：度)
-    %   yStepSize: Y轴步长 (单位：度)
-    %   maxAngle: 最大偏转角度范围 [-maxAngle, maxAngle]
+    %   xRange: X方向的总距离 (单位：mm)
+    %   yRange: Y方向的总距离 (单位：mm)
+    %   gridSpacing: 网格间距 (单位：mm)
+    %   focalLength: 场镜焦距 (单位：mm)
     %   pauseTime: 每次偏转后停留时间 (单位：秒)
+
+    % 计算网格点数
+    numXSteps = ceil(xRange / gridSpacing); % X方向步数
+    numYSteps = ceil(yRange / gridSpacing); % Y方向步数
+
+    % 初始化起始位置
+    xStart = -xRange / 2; % X方向起始点
+    yStart = -yRange / 2; % Y方向起始点
 
     % 打开串口
     s = serialport(serialPort, baudRate);
 
-    % 初始化角度
-    angleX = -maxAngle;  % X轴初始角度
-    angleY = -maxAngle;  % Y轴初始角度
-    direction = 1;       % X轴偏转方向 (1: 正向, -1: 反向)
-
     try
-        % 主循环
-        while angleY <= maxAngle
-            % 发送当前角度数据
-            send_angel_data(s, angleX, angleY);
+        % 主循环：遍历网格
+        for yStep = 0:numYSteps
+            % 计算当前Y坐标
+            currentY = yStart + yStep * gridSpacing;
 
-            % 更新X轴角度
-            angleX = angleX + direction * xStepSize;
-
-            % 判断是否需要反向
-            if angleX > maxAngle || angleX < -maxAngle
-                % 超出范围，反向
-                direction = -direction;
-
-                % Y轴增加步长
-                angleY = angleY + yStepSize;
-
-                % 确保Y轴不超过范围
-                if angleY > maxAngle
-                    break;
-                end
+            % X方向的扫描
+            if mod(yStep, 2) == 0
+                % 偶数行：从左到右
+                xSteps = 0:numXSteps;
+            else
+                % 奇数行：从右到左
+                xSteps = numXSteps:-1:0;
             end
 
-            % 停留一定时间
-            pause(pauseTime);
+            for xStep = xSteps
+                % 计算当前X坐标
+                currentX = xStart + xStep * gridSpacing;
+
+                % 调用move_to_position函数移动到当前网格点
+                move_to_position(serialPort, baudRate, currentX, currentY, focalLength);
+
+                % 停留一定时间
+                pause(pauseTime);
+            end
         end
     catch ME
+        % 捕获异常并输出错误信息
         warning(ME.identifier, "发生错误: %s", ME.message);
     end
 
