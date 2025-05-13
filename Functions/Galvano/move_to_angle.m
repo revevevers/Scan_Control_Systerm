@@ -7,9 +7,16 @@ function move_to_angle(serialPort, baudRate, focusX, focusY, focalLength)
     %   focusY: 聚焦点的 Y 坐标 (单位：mm)
     %   focalLength: 场镜焦距 (单位：mm)
 
-    % 角度转换函数（-10°~10° → 0~65535）
+    % 角度转换函数（-11°~11° → 0~32767）
     function mappedValue = mapAngleToValue(angle)
-        mappedValue = uint16((angle + 10) * 65535 / 20);
+        % 将角度从 -11°~11° 映射到 0~32767
+        mappedValue = uint16((angle + 11) * 32767 / 22);
+    end
+
+    % 电压转换函数（0~32767 → -5V~5V）
+    function voltage = mapValueToVoltage(value)
+        % 将 0~32767 映射到 -5V~5V
+        voltage = (double(value) / 32767) * 5 - 5;
     end
 
     % 计算偏转角度（弧度制）
@@ -52,9 +59,14 @@ function move_to_angle(serialPort, baudRate, focusX, focusY, focalLength)
         % 发送数据包
         write(s, data, "uint8");
 
+        % 计算对应的电压值
+        voltageX = mapValueToVoltage(mappedX);
+        voltageY = mapValueToVoltage(mappedY);
+
         % 输出确认信息
         fprintf('振镜已偏转到聚焦点：X=%.2f mm, Y=%.2f mm\n', focusX, focusY);
         fprintf('对应的偏转角度：X=%.2f°, Y=%.2f°\n', angleX, angleY);
+        fprintf('对应的电压值：X=%.2f V, Y=%.2f V\n', voltageX, voltageY);
     catch ME
         % 捕获异常并输出错误信息
         fprintf('发生错误: %s\n', ME.message);
