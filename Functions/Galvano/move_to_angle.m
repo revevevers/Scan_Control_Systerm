@@ -9,14 +9,20 @@ function move_to_angle(serialPort, baudRate, focusX, focusY, focalLength)
 
     % 角度转换函数（-11°~11° → 0~32767）
     function mappedValue = mapAngleToValue(angle)
-        % 将角度从 -11°~11° 映射到 0~32767
-        mappedValue = uint16((angle + 11) * 32767 / 22);
+        % 将角度从 -11°~11° 映射到 ADC 对应的 ±5V 电压范围（16384~49152）
+        
+        % 限制输入范围，防止超出
+        angle = max(min(angle, 11), -11);
+        
+        % 线性映射从 [-11, 11] 到 [16384, 49152]，跨度为 32768
+        mappedValue = uint16(round((angle + 11) * 32768 / 22 + 16384));
     end
+
 
     % 电压转换函数（0~32767 → -5V~5V）
     function voltage = mapValueToVoltage(value)
         % 将 0~32767 映射到 -5V~5V
-        voltage = (double(value) / 32767) * 5 - 5;
+        voltage = (double(value) / 65535) * 20 - 10;
     end
 
     % 计算偏转角度（弧度制）
