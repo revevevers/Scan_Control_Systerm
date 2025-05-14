@@ -1,4 +1,4 @@
-function move_to_angle(serialPort, baudRate, focusX, focusY, focalLength)
+function move_to_position(serialPort, baudRate, focusX, focusY, focalLength)
     % move_to_angle: 控制振镜偏转到指定的聚焦点位置
     % 参数：
     %   serialPort: 串口端口 (如 'COM7')
@@ -6,6 +6,9 @@ function move_to_angle(serialPort, baudRate, focusX, focusY, focalLength)
     %   focusX: 聚焦点的 X 坐标 (单位：mm)
     %   focusY: 聚焦点的 Y 坐标 (单位：mm)
     %   focalLength: 场镜焦距 (单位：mm)
+
+    % 关闭并清理串口
+    clear s;
 
     % 角度转换函数（-11°~11° → 0~32767）
     function mappedValue = mapAngleToValue(angle)
@@ -77,7 +80,4 @@ function move_to_angle(serialPort, baudRate, focusX, focusY, focalLength)
         % 捕获异常并输出错误信息
         fprintf('发生错误: %s\n', ME.message);
     end
-
-    % 关闭并清理串口
-    clear s;
 end

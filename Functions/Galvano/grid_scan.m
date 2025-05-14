@@ -1,4 +1,4 @@
-function snake_pattern(serialPort, baudRate, xRange, yRange, gridSpacing, focalLength, pauseTime)
+function grid_scan(serialPort, baudRate, xRange, yRange, gridSpacing, focalLength, pauseTime)
     % 蛇形偏转函数
     % 参数：
     %   serialPort: 串口端口 (如 'COM7')
@@ -7,7 +7,7 @@ function snake_pattern(serialPort, baudRate, xRange, yRange, gridSpacing, focalL
     %   yRange: Y方向的总距离 (单位：mm)
     %   gridSpacing: 网格间距 (单位：mm)
     %   focalLength: 场镜焦距 (单位：mm)
-    %   pauseTime: 每次偏转后停留时间 (单位：秒)
+    %   pauseTime: 每次循环的总时间 (单位：秒)
 
     % 计算网格点数
     numXSteps = ceil(xRange / gridSpacing); % X方向步数
@@ -16,9 +16,6 @@ function snake_pattern(serialPort, baudRate, xRange, yRange, gridSpacing, focalL
     % 初始化起始位置
     xStart = -xRange / 2; % X方向起始点
     yStart = -yRange / 2; % Y方向起始点
-
-    % 打开串口
-    s = serialport(serialPort, baudRate);
 
     try
         % 主循环：遍历网格
@@ -36,14 +33,32 @@ function snake_pattern(serialPort, baudRate, xRange, yRange, gridSpacing, focalL
             end
 
             for xStep = xSteps
+                % 记录循环开始时间
+                loopStartTime = tic;
+
                 % 计算当前X坐标
                 currentX = xStart + xStep * gridSpacing;
 
-                % 调用move_to_position函数移动到当前网格点
+                % 在前50ms内运行move_to_position函数
+                moveStartTime = tic;
                 move_to_position(serialPort, baudRate, currentX, currentY, focalLength);
+                moveElapsedTime = toc(moveStartTime);
 
-                % 停留一定时间
-                pause(pauseTime);
+                % 打印当前位置信息
+                fprintf('当前位置：X=%.2f mm, Y=%.2f mm\n', currentX, currentY);
+
+                % 如果move_to_position运行时间不足50ms，则等待
+                if moveElapsedTime < 0.05
+                    pause(0.05 - moveElapsedTime);
+                end
+
+                % 计算循环总时间
+                loopElapsedTime = toc(loopStartTime);
+
+                % 如果循环总时间不足pauseTime，则等待
+                if loopElapsedTime < pauseTime
+                    pause(pauseTime - loopElapsedTime);
+                end
             end
         end
     catch ME

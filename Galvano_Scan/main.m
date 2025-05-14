@@ -15,11 +15,8 @@ function main(dataPacketType)
 
     % 检查返回的变量名称是否为 'Flash'
     if strcmp(returnedVariableName, 'Flash')
-        % 如果返回值为 'Flash'，调用 move_to_angle 函数
-    %    angleX = 1; % 示例 X 轴角度
-    %    angleY = -1; % 示例 Y 轴角度
-    %    move_to_angle(serialPortName, 115200, angleX, angleY);
-        move_to_angle(serialPort, 115200, 50, 50, 163);
+        % 如果返回值为 'Flash'，调用 grid_scan(serialPort, baudRate, xRange, yRange, gridSpacing, focalLength, pauseTime)函数
+        grid_scan(serialPort, 115200, 50, 50, 1, 163, 0.2);
     else
         fprintf('返回的变量名称为: %s，未调用 move_to_angle。\n', returnedVariableName);
     end
