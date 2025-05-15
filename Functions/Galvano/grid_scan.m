@@ -55,6 +55,9 @@ function grid_scan(serialPort, baudRate, xRange, yRange, gridSpacing, focalLengt
                 % 计算循环总时间
                 loopElapsedTime = toc(loopStartTime);
 
+                % 输出本次循环总时间
+                fprintf('本次循环总时间：%.4f 秒\n', loopElapsedTime);
+
                 % 如果循环总时间不足pauseTime，则等待
                 if loopElapsedTime < pauseTime
                     pause(pauseTime - loopElapsedTime);
