@@ -1,8 +1,8 @@
 
-#  *函数使用手册*
--  `function closeup(portName)`
+#  *函数使用说明*
+-  `closeup(portName)`
    -  在运行发送命令程序前运行此函数用于关闭串口，防止串口被占用，可指定串口，若不指定默认关闭所有找到的串口，会显示当前可用的串口。
--  `function laser_control()`
+-  `laser_control()`
    -  激光器出光控制函数，自行输入指令名称，与激光器触控板控制相似。
    -  发送成功串口命令后激光器会返回相同的命令，程序会转换成对应名称，说明激光器成功接收到了指令。
 -  `move_to_position(serialPort, baudRate, focusX, focusY, focalLength)`
