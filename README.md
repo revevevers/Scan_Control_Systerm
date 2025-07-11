@@ -25,6 +25,11 @@
 
    将dataPacketType变量更改为字符串类型的指令，运行顺序为：`'online_download'`  `'V_download'`  `'F_download'` `'stand_by'` `'Flash'` `'QSwitch'#此时出光，同时振镜开始偏转` `'QSwitch_close'`  `'Flash_close'` `'stand_by_close'` `'online_download_close'`
 
+4. **中断扫描功能**：
+   - 在扫描过程中，可以调用 `stop_grid_scan()` 函数来停止扫描
+   - 停止扫描后会自动发送 `'QSwitch_close'` 命令关闭激光器
+   - 也可以使用 `is_grid_scan_running()` 查询扫描状态
+
 
 # 附
 ## *具体函数说明*
@@ -38,6 +43,11 @@
 -  `grid_scan(serialPort, baudRate, xRange, yRange, gridSpacing, focalLength, pauseTime)`
    -  网格扫描，输入参数有X方向和Y方向区间，网格间距，场镜焦距以及每个点停留时间。
    -  应当在接收到激光器开启命令时启动此函数。
+   -  **新增功能**：支持扫描中断，调用 `stop_grid_scan()` 可以停止正在运行的扫描并自动关闭激光器。
+-  `stop_grid_scan()`
+   -  **新增函数**：停止正在运行的网格扫描。调用此函数会中断扫描循环并自动发送 `'QSwitch_close'` 命令关闭激光器。
+-  `is_grid_scan_running()`
+   -  **新增函数**：查询网格扫描是否正在运行。返回 `true` 表示扫描正在进行，返回 `false` 表示扫描已停止。
 ## *设备尺寸参数*
 
 ![振镜结构图](images/振镜尺寸图.png)
