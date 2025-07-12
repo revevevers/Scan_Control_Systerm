@@ -25,6 +25,11 @@ download('online_download'); % 激光器预燃%
 download('stand_by'); % 激光器待机
 download('Flash'); % 激光器启动
 
+%% 开启激光器
+download('QSwitch');
+%% 关闭激光器
+download('QSwitch_close'); 
+
 %% 开始扫描
 download('QSwitch', LaserSerialPort, V, F);
 grid_scan(GalvanoSerialPort, baudRate, XRange, YRange, Step, focalLength, PauseTime, 'StartX', XStart, 'StartY', YStart);
