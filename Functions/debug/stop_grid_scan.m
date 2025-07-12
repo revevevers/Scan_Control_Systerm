@@ -8,5 +8,13 @@ function stop_grid_scan()
     % 设置停止标志
     SCAN_STOP_FLAG = true;
     
+    % 同时在基础工作区设置变量（确保能被读取到）
+    try
+        assignin('base', 'SCAN_STOP_FLAG', true);
+    catch
+        % 如果assignin失败，忽略错误
+    end
+    
     fprintf('已发送停止扫描信号\n');
+    fprintf('注意：如果扫描仍在运行，请按 Ctrl+C 强制中断\n');
 end

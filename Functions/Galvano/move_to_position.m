@@ -62,8 +62,8 @@ function move_to_position(serialPort, baudRate, focusX, focusY, focalLength)
         data(15) = hex2dec('55');   % 包尾 (0x55)
 
         % 转换为十六进制字符串
-        hexString = sprintf('%02X', data);  % 将每个字节转换为两位十六进制
-        fprintf(['发送的十六进制数据: ', hexString]);
+        % hexString = sprintf('%02X', data);  % 将每个字节转换为两位十六进制
+        % fprintf(['发送的十六进制数据: ', hexString]);
 
         % 发送数据包
         write(s, data, "uint8");
