@@ -17,17 +17,15 @@
 验证方法：任何水平入射场镜（竖直入射振镜相当于水平入射场镜）的光束会汇聚在工作平面的中心。根据振镜结构图聚焦在板材上光点的位置应距地面51mm，距振镜远边缘53.5mm。
 #  说明
 ## 设备使用说明：
-1. 根据振镜说明书接线，振镜控制板12V供电，通过Type-c转USB连接电脑串口，激光器通过控制板开启PC control模式。
+1. 根据振镜说明书接线，振镜控制板12V供电，通过Type-c转USB连接电脑串口，激光器通过控制板开启PC control模式。**注意：振镜控制板（绿色板子）别直接放在光学平台上，拿个绝缘的东西垫一下。**
 
-2. 修改main.m函数中的激光器串口名称和振镜串口名称为你使用的串口名称，设定你想要的激光器电压和频率。
+2. 可以通过运行test.m中的指令通过串口设定激光器电压和频率，但建议在激光器控制板中设定好电压和频率再进入PC control模式。
 
-3. 按指令顺序运行`main(dataPacketType);`函数，与激光器控制板相同。
-
-   将dataPacketType变量更改为字符串类型的指令，运行顺序为：`'online_download'`  `'V_download'`  `'F_download'` `'stand_by'` `'Flash'` `'QSwitch'#此时出光，同时振镜开始偏转` `'QSwitch_close'`  `'Flash_close'` `'stand_by_close'` `'online_download_close'`
+3. 接线完成后直接启动startGUI.m程序，根据提示操作即可。
 
 4. **中断扫描功能**：
    - 在扫描过程中，可以调用 `stop_grid_scan()` 函数来停止扫描
-   - 停止扫描后会自动发送 `'QSwitch_close'` 命令关闭激光器
+   - 扫描完成后会自动发送 `'QSwitch_close'` 命令关闭激光器
    - 也可以使用 `is_grid_scan_running()` 查询扫描状态
 
 
